@@ -5,7 +5,8 @@
 #pragma once
 #include "DlgUsrFontDisp.h"
 
-#define FILE_CONFIG_NAME	"config.ini"
+#define FILE_CONFIG_DIR		".\\config\\"
+#define FILE_CONFIG_NAME	".\\config\\config.ini"
 // CloopFileCreateToolDlg 对话框
 class CloopFileCreateToolDlg : public CDialogEx
 {
@@ -19,7 +20,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 	CDlgUsrFontDisp childDlgDispUsrFont;		//用户字库显示子窗口
-	FILE *pFileConfig;
+	//FILE *pFileConfig;
 	CFile fileConfig;
 
 // 实现

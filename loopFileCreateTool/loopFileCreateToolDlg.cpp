@@ -113,12 +113,12 @@ BOOL CloopFileCreateToolDlg::OnInitDialog()
 
 	//查找文件路径
 	CFileFind findfile;
-	if(!findfile.FindFile(_T(".\\config\\")))
+	if(!findfile.FindFile(_T(FILE_CONFIG_DIR)))
 	{
-		CreateDirectory(_T(".\\config\\"), NULL);
+		CreateDirectory(_T(FILE_CONFIG_DIR), NULL);
 	}
 
-	fileConfig.Open(_T(".\\config\\config.ini"),);
+	fileConfig.Open(_T(FILE_CONFIG_NAME),CFile::modeCreate|CFile::modeNoTruncate|CFile::modeReadWrite );
 	//HBITMAP hBmp=LoadBitmap(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BITMAP1));
 	//((CButton*)GetDlgItem(IDC_BUTTON1))->SetBitmap(hBmp);
 
