@@ -124,8 +124,6 @@
     <None Include="res\loopFileCreateTool.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\bitmap1.bmp" />
-    <Image Include="res\bitmap2.bmp" />
     <Image Include="res\logo.bmp" />
     <Image Include="res\loopFileCreateTool.ico" />
   </ItemGroup>

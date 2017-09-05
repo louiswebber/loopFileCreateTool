@@ -98,8 +98,7 @@ BOOL CloopFileCreateToolDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	//HBITMAP hBmp=LoadBitmap(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BITMAP1));   
-	//((CButton*)GetDlgItem(IDC_BUTTON1))->SetBitmap(hBmp);
+
 	ShowWindow(SW_SHOWNORMAL) ;
 
 	{
@@ -107,14 +106,27 @@ BOOL CloopFileCreateToolDlg::OnInitDialog()
 		CRect rect;
 		((CEdit*)(GetDlgItem(IDC_EDIT_FOR_USR_FONT_DISP)))->GetWindowRect(rect);
 		childDlgDispUsrFont.Create(IDD_DIALOG_DISP_USR_FONT,this);
-		childDlgDispUsrFont.MoveWindow(rect); 
+		childDlgDispUsrFont.MoveWindow(rect);
 		childDlgDispUsrFont.InitDialog();
 		childDlgDispUsrFont.ShowWindow(SW_SHOW);
 	}
 
+	//查找文件路径
+	CFileFind findfile;
+	if(!findfile.FindFile(_T(".\\config\\")))
+	{
+		CreateDirectory(_T(".\\config\\"), NULL);
+	}
+
+	fileConfig.Open(_T(".\\config\\config.ini"),);
+	//HBITMAP hBmp=LoadBitmap(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BITMAP1));
+	//((CButton*)GetDlgItem(IDC_BUTTON1))->SetBitmap(hBmp);
+
 	((CComboBox*)GetDlgItem(IDC_COMBO1))->SetCurSel(0);
+
+	//加载字库
 	char ret = TRUE;
-	//ret = AddFontResource(_T("..\\res\\老宋.TTF"));
+	ret = AddFontResource(_T(".\\老宋.TTF"));
 	if(FALSE == ret)
 	{
 		//MessageBox(_T("字库不存在！"), _T("警告"));
@@ -122,31 +134,32 @@ BOOL CloopFileCreateToolDlg::OnInitDialog()
 	}
 	else
 	{
-		//::SendMessage( HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+		::SendMessage( HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 		((CMFCFontComboBox*)GetDlgItem(IDC_MFCFONTCOMBO1))->SelectFont(_T("老宋"));
 	}
 
+	//创建字体
 	{
 		CFont * f;
 		f = new CFont;
-		f->CreateFont(11, // nHeight 
-						11, // nWidth 
-						0, // nEscapement 
-						0, // nOrientation 
-						FW_NORMAL, // nWeight 
-						FALSE, // bItalic 
-						FALSE, // bUnderline 
-						0, // cStrikeOut 
-						GB2312_CHARSET, // nCharSet 
-						OUT_DEFAULT_PRECIS, // nOutPrecision 
-						CLIP_DEFAULT_PRECIS, // nClipPrecision 
-						DEFAULT_QUALITY, // nQuality 
-						DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily 
+		f->CreateFont(11, // nHeight
+						11, // nWidth
+						0, // nEscapement
+						0, // nOrientation
+						FW_NORMAL, // nWeight
+						FALSE, // bItalic
+						FALSE, // bUnderline
+						0, // cStrikeOut
+						GB2312_CHARSET, // nCharSet
+						OUT_DEFAULT_PRECIS, // nOutPrecision
+						CLIP_DEFAULT_PRECIS, // nClipPrecision
+						DEFAULT_QUALITY, // nQuality
+						DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily
 						(LPCTSTR)(((CMFCFontComboBox*)GetDlgItem(IDC_MFCFONTCOMBO1))->GetSelFont())); // lpszFac
 		((CEdit*)GetDlgItem(IDC_EDIT1))->SetFont(f);
 	}
 
-	
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -208,5 +221,5 @@ void CloopFileCreateToolDlg::OnMove(int x, int y)
 	CRect rect;
 	//创建文字编辑子对话框
 	((CEdit*)(GetDlgItem(IDC_EDIT_FOR_USR_FONT_DISP)))->GetWindowRect(rect);
-	childDlgDispUsrFont.MoveWindow(rect); 
+	childDlgDispUsrFont.MoveWindow(rect);
 }

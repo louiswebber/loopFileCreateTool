@@ -5,3 +5,5 @@
 /fontLibtool_pc/Debug
 /fontLibtool_pc/fontLibToolsApp/Debug
 /fontLibtool_pc/ipch
+*.suo
+*.sdf
