@@ -33,6 +33,6 @@ END_MESSAGE_MAP()
 
 // CDlgUsrFontDisp 消息处理程序
 
-void CDlgUsrFontDisp::InitDialog(void)
+void CDlgUsrFontDisp::usrFontDispInitDialog(void)
 {
 }

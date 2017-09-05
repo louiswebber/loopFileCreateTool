@@ -63,6 +63,7 @@ BEGIN_MESSAGE_MAP(CloopFileCreateToolDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_MOVE()
+	ON_BN_CLICKED(IDC_BUTTON5, &CloopFileCreateToolDlg::OnBnClickedButton5)
 END_MESSAGE_MAP()
 
 
@@ -101,36 +102,30 @@ BOOL CloopFileCreateToolDlg::OnInitDialog()
 
 	ShowWindow(SW_SHOWNORMAL) ;
 
+	if(NULL == childDlgDispUsrFont.m_hWnd);
 	{
 		//创建文字编辑子对话框
 		CRect rect;
 		((CEdit*)(GetDlgItem(IDC_EDIT_FOR_USR_FONT_DISP)))->GetWindowRect(rect);
 		childDlgDispUsrFont.Create(IDD_DIALOG_DISP_USR_FONT,this);
 		childDlgDispUsrFont.MoveWindow(rect);
-		childDlgDispUsrFont.InitDialog();
+		childDlgDispUsrFont.usrFontDispInitDialog();
 		childDlgDispUsrFont.ShowWindow(SW_SHOW);
 	}
 
-	//查找文件路径
-	CFileFind findfile;
-	if(!findfile.FindFile(_T(FILE_CONFIG_DIR)))
-	{
-		CreateDirectory(_T(FILE_CONFIG_DIR), NULL);
-	}
+	InitConfigFile();//预留配置文件接口
 
-	fileConfig.Open(_T(FILE_CONFIG_NAME),CFile::modeCreate|CFile::modeNoTruncate|CFile::modeReadWrite );
 	//HBITMAP hBmp=LoadBitmap(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BITMAP1));
 	//((CButton*)GetDlgItem(IDC_BUTTON1))->SetBitmap(hBmp);
 
-	((CComboBox*)GetDlgItem(IDC_COMBO1))->SetCurSel(0);
 
 	//加载字库
 	char ret = TRUE;
 	ret = AddFontResource(_T(".\\老宋.TTF"));
-	if(FALSE == ret)
+	if(TRUE != ret)
 	{
 		//MessageBox(_T("字库不存在！"), _T("警告"));
-		((CMFCFontComboBox*)GetDlgItem(IDC_MFCFONTCOMBO1))->SelectFont(_T("Arial"));
+		((CMFCFontComboBox*)GetDlgItem(IDC_MFCFONTCOMBO1))->SelectFont(_T("微软雅黑"));
 	}
 	else
 	{
@@ -222,4 +217,55 @@ void CloopFileCreateToolDlg::OnMove(int x, int y)
 	//创建文字编辑子对话框
 	((CEdit*)(GetDlgItem(IDC_EDIT_FOR_USR_FONT_DISP)))->GetWindowRect(rect);
 	childDlgDispUsrFont.MoveWindow(rect);
+}
+
+
+void CloopFileCreateToolDlg::InitConfigFile(void)
+{
+#if 0
+	//查找文件路径
+	CFileFind findfile;
+	if(!findfile.FindFile(_T(FILE_CONFIG_DIR)))
+	{
+		CreateDirectory(_T(FILE_CONFIG_DIR), NULL);
+	}
+
+	memset(&config, 0, sizeof(configStruct));
+	fileConfig.Open(_T(FILE_CONFIG_NAME),CFile::modeCreate|CFile::modeNoTruncate|CFile::modeReadWrite|CFile::typeBinary );
+	ULONGLONG fileLenth	= fileConfig.GetLength();
+	unsigned long memlen	= (fileLenth + CONFIG_FILE_SIZE - 1)/CONFIG_FILE_SIZE * CONFIG_FILE_SIZE;
+	char *configBuf	= new char[memlen];
+	char *pBufAddr	= configBuf;
+	memset(configBuf, 0, memlen);
+	fileConfig.Read(configBuf,fileLenth);
+	pBufAddr	= strstr(configBuf,"ledSelect=[");
+	if(pBufAddr)
+	{
+		config.ledSelect	= *(pBufAddr + strlen("ledSelect=[")) - '0';
+		if(config.ledSelect > 3)
+		{
+			config.ledSelect	= 0;
+		}
+		*(pBufAddr + strlen("ledSelect=[")) = config.ledSelect + '0';
+	}
+	else
+	{
+		config.ledSelect	= 0;
+		memcpy_s(configBuf + fileLenth, sizeof("\r\n\0"), "\r\n\0", memlen);
+		memcpy_s(configBuf + fileLenth + , sizeof("\r\n"), "\r\n", memlen);
+	}
+#endif
+	config.ledSelect	= 0;
+	((CComboBox*)GetDlgItem(IDC_COMBO1))->SetCurSel(config.ledSelect);
+}
+
+void CloopFileCreateToolDlg::OnBnClickedButton5()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	if(NULL == childDlgRepaitWords.m_hWnd)
+	{
+		childDlgRepaitWords.Create(IDD_DIALOG_REPAINT_WORDS,NULL);
+		childDlgRepaitWords.repaintWordsDispInitDialog();
+		childDlgRepaitWords.ShowWindow(SW_SHOW);
+	}
 }

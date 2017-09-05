@@ -14,7 +14,7 @@ public:
 // 对话框数据
 	enum { IDD = IDD_DIALOG_DISP_USR_FONT };
 
-	void InitDialog(void);
+	void usrFontDispInitDialog(void);
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
