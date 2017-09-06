@@ -102,7 +102,7 @@ BOOL CloopFileCreateToolDlg::OnInitDialog()
 
 	ShowWindow(SW_SHOWNORMAL) ;
 
-	if(NULL == childDlgDispUsrFont.m_hWnd);
+	if(NULL == childDlgDispUsrFont.m_hWnd)
 	{
 		//创建文字编辑子对话框
 		CRect rect;
@@ -264,8 +264,11 @@ void CloopFileCreateToolDlg::OnBnClickedButton5()
 	// TODO: 在此添加控件通知处理程序代码
 	if(NULL == childDlgRepaitWords.m_hWnd)
 	{
-		childDlgRepaitWords.Create(IDD_DIALOG_REPAINT_WORDS,NULL);
-		childDlgRepaitWords.repaintWordsDispInitDialog();
-		childDlgRepaitWords.ShowWindow(SW_SHOW);
+		childDlgRepaitWords.Create(IDD_DIALOG_REPAINT_WORDS,this);
+		childDlgRepaitWords.createDialog();
 	}
+	
+	childDlgRepaitWords.reshowDialog();
+	childDlgRepaitWords.childDlgDrawWords.RedrawGrid(11, 160);
+	
 }

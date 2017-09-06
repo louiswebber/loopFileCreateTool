@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
+    <ClInclude Include="DlgChildDrawWords.h" />
     <ClInclude Include="DlgRepaitWords.h" />
     <ClInclude Include="DlgUsrFontDisp.h" />
     <ClInclude Include="loopFileCreateTool.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DlgChildDrawWords.cpp" />
     <ClCompile Include="DlgRepaitWords.cpp" />
     <ClCompile Include="DlgUsrFontDisp.cpp" />
     <ClCompile Include="loopFileCreateTool.cpp" />
@@ -129,7 +131,8 @@
   <ItemGroup>
     <Image Include="res\bitmap2.bmp" />
     <Image Include="res\bitmap3.bmp" />
-    <Image Include="res\icon1.ico" />
+    <Image Include="res\bitmap4.bmp" />
+    <Image Include="res\bitmap5.bmp" />
     <Image Include="res\logo.bmp" />
     <Image Include="res\loopFileCreateTool.ico" />
   </ItemGroup>
